@@ -1,0 +1,200 @@
+Schema
+
+
+package com.cg.bin;
+
+
+public class Schema {
+	int itemId;
+	String itemName;
+	double itemPrice;
+	int txnId;
+	
+	public Schema(int itemId,String itemName, double itemPrice, int txnId){
+		this.itemId=itemId;
+		this.itemName=itemName;
+		this.itemPrice=itemPrice;
+		this.txnId=txnId;
+	}
+
+	//@Override
+	public String toString() {
+		return "ItemSchema [itemId=" + itemId + ", itemName=" + itemName
+				+ ", itemPrice=" + itemPrice + ", txnId=" + txnId + "]";
+	}
+	public static void main(String args[]){
+		Schema schema=new Schema(6,"a",1.1,123);
+		
+		System.out.println(schema.toString());
+		
+	}
+
+}
+
+
+
+
+Item UI
+
+
+
+package com.cg.ui;
+
+	import java.util.Scanner;
+	
+	import com.cg.helper.*;
+	
+	import java.math.*;
+	
+    import com.cg.bin.*;
+	
+	public class ItemUI {
+			
+			public static void main(String args[]) {
+				// TODO Auto-generated method stub
+				int ch=0;
+				Scanner sc=new Scanner(System.in);
+				ItemUI ui=new ItemUI();
+				try{
+					
+				while(true){
+					System.out.println("Enter \n 1-add \n 2-total count \n3-display record\n4-find dup record\n5-remove record \n 6-exit");
+					System.out.println("Enter the choice");
+					ch=sc.nextInt();
+					switch(ch){
+						case 1:
+							System.out.println("add");
+							ui.addDetails();
+							break;
+						case 2:
+							System.out.println("count");
+							break;
+						case 3:
+							System.out.println("display");
+							break;
+						case 4:
+							System.out.println("find duplicate");
+							break;	
+						case 5:
+							System.out.println("remove record");
+							break;	
+						default:
+							System.exit(0);
+				}
+			}
+		}
+			catch(Exception e)
+			{
+				System.out.println("Enter the correct choice");
+			}
+}
+			
+			public void addDetails() throws Exception{
+				Scanner sc=new Scanner(System.in);
+				Validator v=new Validator();
+				Collectionhelper Collectionhelper=new Collectionhelper();
+				String id,name,price;
+				double txnID;
+				System.out.println("enter item ID:");
+				id=sc.next();
+				if(v.validateID(id)){
+					
+					Collectionhelper.addID(Integer.parseInt(id));
+					System.out.println("Enter Item name:");
+					name=sc.next();
+					if(Validator.validateName(name)){
+						Collectionhelper.addName(name);
+						System.out.println("Enter Item price:");
+						price=sc.next();
+						if(Validator.validatePrice(price)){
+							Collectionhelper.addPrice(Double.parseDouble(price));
+						txnID=Math.random();
+							Collectionhelper.addTxnID(txnID);
+						}
+					}
+				}
+			}
+
+}
+
+
+
+
+
+
+VALIDATOR
+
+
+package com.cg.helper;
+
+import java.util.regex.Pattern;
+
+public class Validator {
+public boolean validateID(String id)throws Exception{
+	String pat="(\\d){5}";
+	try{
+		if(Pattern.matches(pat,id)){
+		return true;
+	}
+	else throw new Exception("Hi");
+	}
+		catch(Exception e)
+		{
+			System.out.println("tested ok");
+			return false;
+		}
+	}
+	public static boolean validateName(String name) throws Exception{
+		String pattern="[a-z]{3,10}";
+		try
+		{
+			if(Pattern.matches(pattern,name)){
+				return true;
+			}
+			else throw new Exception("Enter correct format");
+		}
+			catch(Exception e)
+			{
+				System.out.println("Enter in correct format");
+				return false;
+			}
+	}
+	
+public static boolean validatePrice(String price) throws Exception{
+	String pattern="[0-9]{1,10}";
+	try
+	{
+		if(Pattern.matches(pattern,price)){
+			return true;
+		}
+		else throw new Exception("Enter correct format");
+	}
+		catch(Exception e)
+		{
+			System.out.println("Enter in correct format");
+			return false;
+		}
+   }
+}
+
+
+
+
+COLLECTION HELPER
+
+package com.cg.helper;
+
+public class Collectionhelper {
+	public void addID(int id){
+		System.out.println("updated");	
+	}
+	public void addName(String name){
+		System.out.println("updated");
+	}
+	public void addPrice(double price ){
+		System.out.println("updated");
+	}
+	public void addTxnID(double txnID){
+		System.out.println("updated");
+	}
+}
